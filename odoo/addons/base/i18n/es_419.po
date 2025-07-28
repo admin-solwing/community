@@ -19162,7 +19162,7 @@ msgstr "Pago por lotes"
 #. module: base
 #: model:ir.module.module,summary:base.module_delivery_stock_picking_batch
 msgid "Batch Transfer, Carrier"
-msgstr "Translado por lotes, transportista"
+msgstr "Traslado por lotes, transportista"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_ar_website_sale
@@ -21656,7 +21656,7 @@ msgstr "Código de llamada del país"
 #: model:ir.model.fields,field_description:base.field_res_partner_bank__country_code
 #: model:ir.model.fields,field_description:base.field_res_users__country_code
 msgid "Country Code"
-msgstr "Código de país"
+msgstr "Código del país"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.action_country_group
@@ -31951,7 +31951,7 @@ msgstr "Varios"
 #: model_terms:ir.ui.view,arch_db:base.view_model_fields_form
 #: model_terms:ir.ui.view,arch_db:base.view_model_form
 msgid "Miscellaneous"
-msgstr "Varios"
+msgstr "Misceláneo"
 
 #. module: base
 #: model:res.partner.title,name:base.res_partner_title_miss
@@ -42369,7 +42369,7 @@ msgid ""
 "You can use this field for quick search."
 msgstr ""
 "El código ISO del país en dos caracteres.\n"
-"Puede utilizar este campo para realizar una búsqueda rápida."
+"Puedes utilizar este campo para realizar una búsqueda rápida."
 
 #. module: base
 #: model:res.partner,website_short_description:base.res_partner_10
