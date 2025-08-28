@@ -103,3 +103,4 @@ cryptography
 pypeg2
 pyjwt
 simple-dependency-injection
+twilio==9.7.1
