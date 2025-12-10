@@ -151,15 +151,15 @@ defineModels([Partner, Bar, Foo]);
  *  kwargs: Record<string, any>;
  *  [key: string]: any;
  * }} params
- * @returns
  */
-const ormRequest = async (params) => {
-    const response = await fetch(`/web/dataset/call_kw/${params.model}/${params.method}`, {
+function fetchCallKw(params) {
+    return fetch(`/web/dataset/call_kw/${params.model}/${params.method}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
+            id: nextJsonRpcId++,
             jsonrpc: "2.0",
             method: "call",
             params: {
@@ -169,6 +169,19 @@ const ormRequest = async (params) => {
             },
         }),
     });
+}
+
+/**
+ * @param {{
+ *  model: string;
+ *  method: string;
+ *  args: any[];
+ *  kwargs: Record<string, any>;
+ *  [key: string]: any;
+ * }} params
+ */
+const ormRequest = async (params) => {
+    const response = await fetchCallKw(params);
     const { error, result } = await response.json();
     if (error) {
         console.error(error);
@@ -186,6 +199,7 @@ const JSON_RPC_BASIC_PARAMS = {
         ["Content-Type"]: "application/json",
     },
 };
+let nextJsonRpcId = 0;
 
 describe.current.tags("headless");
 
@@ -284,8 +298,8 @@ test("onRpc: JSON-RPC error handling", async () => {
 });
 
 test("rpc: calls on mock server", async () => {
-    onRpc("/route", () => true);
-    onRpc("/pure/route", () => true);
+    onRpc("/route", () => "pure route response");
+    onRpc("http://pure.route.com/", () => "external route response");
     onRpc("/boom", () => {
         throw new Error("Boom");
     });
@@ -298,8 +312,8 @@ test("rpc: calls on mock server", async () => {
     );
     await makeMockServer();
 
-    await expect(rpc("/pure/route")).resolves.toBe(true);
-    await expect(rpc("/route")).resolves.toBe(true);
+    await expect(rpc("/route")).resolves.toBe("pure route response");
+    await expect(rpc("http://pure.route.com/")).resolves.toBe("external route response");
 
     await expect(rpc("/boom")).rejects.toThrow("RPC_ERROR: Boom");
     await expect(rpc("/boom/pure")).rejects.toThrow(ConnectionLostError);
@@ -307,6 +321,9 @@ test("rpc: calls on mock server", async () => {
     // MockServer error handling with 'rpc'
     await expect(rpc("/unknown/route")).rejects.toThrow(
         "Unimplemented server route: /unknown/route"
+    );
+    await expect(rpc("https://unknown.route")).rejects.toThrow(
+        "Unimplemented server external URL: https://unknown.route"
     );
     await expect(
         rpc("/web/dataset/call_kw/fake.model/fake_method", {
@@ -316,6 +333,13 @@ test("rpc: calls on mock server", async () => {
     ).rejects.toThrow(
         `Cannot find a definition for model "fake.model": could not get model from server environment`
     );
+});
+
+test("performRPC: custom response", async () => {
+    const customResponse = new Response("{}", { status: 418 });
+    onRpc(() => customResponse);
+    await makeMockServer();
+    await expect(fetchCallKw({})).resolves.toBe(customResponse);
 });
 
 test("performRPC: search with active_test=false", async () => {
