@@ -1840,7 +1840,13 @@ export class Wysiwyg extends Component {
                     this.mutex.exec(() => {
                         // TODO In master use a trigger parameter
                         const event = $.Event("image_changed", {_complete: resolve});
-                        $element.trigger(event);
+                        const events = $._data($element[0], "events");
+                        const hasListener = events && events["image_changed"];
+                        if (hasListener && hasListener.length) {
+                            $element.trigger(event);
+                        } else {
+                            resolve();
+                        }
                     });
                 });
             }
@@ -2175,7 +2181,9 @@ export class Wysiwyg extends Component {
         return backgroundGradient || $(targetElement).css(colorType === "text" ? 'color' : 'backgroundColor');
     }
     onColorpaletteDropdownHide(ev) {
-        return !(ev.clickEvent && ev.clickEvent.__isColorpickerClick);
+        const shouldHide = !(ev.clickEvent && this._isColorpickerClick);
+        delete this._isColorpickerClick;
+        return shouldHide;
     }
     onColorpaletteDropdownShow(colorType) {
         const selectedColor = this._getSelectedColor($, colorType);
@@ -3056,6 +3064,9 @@ export class Wysiwyg extends Component {
                 this._pendingBlur = false;
             }
             this._shouldDelayBlur = false;
+        }
+        if (e.target.closest(".o_colorpicker_widget")) {
+            this._isColorpickerClick = true;
         }
     }
     _onBlur() {

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-29 18:36+0000\n"
+"POT-Creation-Date: 2026-01-29 18:36+0000\n"
 "PO-Revision-Date: 2025-12-13 16:38+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.odoo.com/projects/"
@@ -9207,6 +9207,11 @@ msgid "Invoice Outstanding Credits Debits Widget"
 msgstr "Widget de faturamento de créditos e débitos pendentes"
 
 #. module: account
+#: model:ir.actions.report,name:account.account_invoices
+msgid "Invoice PDF"
+msgstr "Invoice PDF"
+
+#. module: account
 #: model:ir.model.fields,field_description:account.field_account_bank_statement_line__invoice_partner_display_name
 #: model:ir.model.fields,field_description:account.field_account_move__invoice_partner_display_name
 msgid "Invoice Partner Display Name"
@@ -11909,7 +11914,6 @@ msgstr "PAY001"
 #. module: account
 #. odoo-python
 #: code:addons/account/models/account_move.py:0
-#: model:ir.actions.report,name:account.account_invoices
 msgid "PDF"
 msgstr "PDF"
 
@@ -16733,18 +16737,6 @@ msgstr "Este ano"
 #. module: account
 #. odoo-python
 #: code:addons/account/models/account_account.py:0
-msgid ""
-"This account is configured in %(journal_names)s journal(s) (ids %"
-"(journal_ids)s) as payment debit or credit account. This means that this "
-"account's type should be reconcilable."
-msgstr ""
-"A conta está configurada no diário %(journal_names)s (ids %(journal_ids)s) "
-"como débito de pagamento ou conta de crédito. Isto significa que este tipo "
-"de conta deve ser reconciliável."
-
-#. module: account
-#. odoo-python
-#: code:addons/account/models/account_account.py:0
 msgid "This account was split off from %(account_name)s (%(company_name)s)."
 msgstr "Essa conta foi dividida de %(account_name)s (%(company_name)s)."
 
@@ -18997,6 +18989,12 @@ msgstr ""
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid "You cannot post an entry with an archived analytic account: %s"
+msgstr ""
+
+#. module: account
+#. odoo-python
 #: code:addons/account/models/res_currency.py:0
 msgid ""
 "You cannot reduce the number of decimal places of a currency which has "
@@ -19225,6 +19223,14 @@ msgstr ""
 "Você deve configurar o 'Diário de ganhos ou perdas cambiais' nas definições "
 "da sua empresa, para gerenciar automaticamente a escrituração de lançamentos "
 "contábeis relacionados às diferenças entre as taxas de câmbio."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_journal_dashboard.py:0
+msgid ""
+"You may only use samples in demo mode, try uploading one of your invoices "
+"instead."
+msgstr ""
 
 #. module: account
 #. odoo-python
@@ -19805,8 +19811,14 @@ msgstr ""
 "{{ object.company_id.name }} recibo de pagamento (Ref {{ object.name or 'n/"
 "a' }})"
 
-#~ msgid "Invoice PDF"
-#~ msgstr "Invoice PDF"
+#~ msgid ""
+#~ "This account is configured in %(journal_names)s journal(s) (ids %"
+#~ "(journal_ids)s) as payment debit or credit account. This means that this "
+#~ "account's type should be reconcilable."
+#~ msgstr ""
+#~ "A conta está configurada no diário %(journal_names)s (ids %"
+#~ "(journal_ids)s) como débito de pagamento ou conta de crédito. Isto "
+#~ "significa que este tipo de conta deve ser reconciliável."
 
 #~ msgid "This setting cannot be changed after an invoice is created."
 #~ msgstr ""

@@ -16,15 +16,15 @@
 # Jan Zorko, 2025
 # Wil Odoo, 2025
 # Aleš Pipan, 2025
-# Jan Zorko <jan.zorko@implex.si>, 2025.
+# Jan Zorko <jan.zorko@implex.si>, 2025, 2026.
 # Tadej Vengust <tadej.vengust@implex.si>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-29 18:36+0000\n"
-"PO-Revision-Date: 2025-12-31 08:44+0000\n"
+"POT-Creation-Date: 2026-01-29 18:36+0000\n"
+"PO-Revision-Date: 2026-01-29 10:56+0000\n"
 "Last-Translator: Jan Zorko <jan.zorko@implex.si>\n"
 "Language-Team: Slovenian <https://translate.odoo.com/projects/odoo-18/"
 "account/sl/>\n"
@@ -9016,6 +9016,11 @@ msgid "Invoice Outstanding Credits Debits Widget"
 msgstr "Pripomoček za neporavnane račune, dobropise in bremenitve"
 
 #. module: account
+#: model:ir.actions.report,name:account.account_invoices
+msgid "Invoice PDF"
+msgstr "Račun PDF"
+
+#. module: account
 #: model:ir.model.fields,field_description:account.field_account_bank_statement_line__invoice_partner_display_name
 #: model:ir.model.fields,field_description:account.field_account_move__invoice_partner_display_name
 msgid "Invoice Partner Display Name"
@@ -11704,7 +11709,6 @@ msgstr "PLAČILO001"
 #. module: account
 #. odoo-python
 #: code:addons/account/models/account_move.py:0
-#: model:ir.actions.report,name:account.account_invoices
 msgid "PDF"
 msgstr "PDF"
 
@@ -14158,7 +14162,7 @@ msgstr ""
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_move_form
 msgid "Set as Checked"
-msgstr "Nastavi kot označeno"
+msgstr "Nastavi kot preverjeno"
 
 #. module: account
 #: model:onboarding.onboarding.step,button_text:account.onboarding_onboarding_step_sales_tax
@@ -16463,18 +16467,6 @@ msgstr "To leto"
 #. module: account
 #. odoo-python
 #: code:addons/account/models/account_account.py:0
-msgid ""
-"This account is configured in %(journal_names)s journal(s) (ids %"
-"(journal_ids)s) as payment debit or credit account. This means that this "
-"account's type should be reconcilable."
-msgstr ""
-"Ta račun je konfiguriran v %(journal_names)s dnevniku (identifikacije) %"
-"(journal_ids)s) kot plačilni debetni ali kreditni račun. To pomeni, da mora "
-"biti ta vrsta računa uskladljiva."
-
-#. module: account
-#. odoo-python
-#: code:addons/account/models/account_account.py:0
 msgid "This account was split off from %(account_name)s (%(company_name)s)."
 msgstr "Ta račun je bil ločen od %(account_name)s (%(company_name)s)."
 
@@ -18699,6 +18691,12 @@ msgstr "V arhivirani reviji ne morete objaviti vnosa. (%(journal)s)"
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid "You cannot post an entry with an archived analytic account: %s"
+msgstr ""
+
+#. module: account
+#. odoo-python
 #: code:addons/account/models/res_currency.py:0
 msgid ""
 "You cannot reduce the number of decimal places of a currency which has "
@@ -18928,6 +18926,14 @@ msgstr ""
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_journal_dashboard.py:0
+msgid ""
+"You may only use samples in demo mode, try uploading one of your invoices "
+"instead."
+msgstr ""
+
+#. module: account
+#. odoo-python
 #: code:addons/account/wizard/account_merge_wizard.py:0
 msgid "You must select at least 2 accounts."
 msgstr "Izbrati morate vsaj 2 računa."
@@ -19093,7 +19099,7 @@ msgstr "po e-pošti"
 #. odoo-python
 #: code:addons/account/wizard/account_automatic_entry_wizard.py:0
 msgid "cancelling {percent}%% of {amount}"
-msgstr "preklic {procent}%% od {zneska}"
+msgstr "preklic {percent}%% od {amount}"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_default_terms_and_conditions
@@ -19502,8 +19508,14 @@ msgstr ""
 "{{ object.company_id.name }} Potrdilo o plačilu (Ref {{ object.name or 'n/"
 "a' }})"
 
-#~ msgid "Invoice PDF"
-#~ msgstr "Račun PDF"
+#~ msgid ""
+#~ "This account is configured in %(journal_names)s journal(s) (ids %"
+#~ "(journal_ids)s) as payment debit or credit account. This means that this "
+#~ "account's type should be reconcilable."
+#~ msgstr ""
+#~ "Ta račun je konfiguriran v %(journal_names)s dnevniku (identifikacije) %"
+#~ "(journal_ids)s) kot plačilni debetni ali kreditni račun. To pomeni, da "
+#~ "mora biti ta vrsta računa uskladljiva."
 
 #~ msgid "This setting cannot be changed after an invoice is created."
 #~ msgstr "Te nastavitve ni mogoče spremeniti po ustvarjanju računa."

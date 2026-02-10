@@ -674,7 +674,7 @@ export const accountTaxHelpers = {
         const factors = target_factors.map((x, i) => [i, Math.abs(x.factor)]);
         factors.sort((a, b) => b[1] - a[1]);
         const sum_of_factors = factors.reduce((sum, x) => sum + x[1], 0.0);
-        return factors.map((x) => [x[0], sum_of_factors ? x[1] / sum_of_factors : 0.0]);
+        return factors.map((x) => [x[0], sum_of_factors ? x[1] / sum_of_factors : 1 / factors.length]);
     },
 
     /**
@@ -1450,5 +1450,17 @@ export const accountTaxHelpers = {
             }
         }
         return values_per_grouping_key;
+    },
+
+    // -------------------------------------------------------------------------
+    // ADVANCED LINES MANIPULATION HELPERS
+    // -------------------------------------------------------------------------
+
+    /**
+     * [!] Mirror of the same method in account_tax.py.
+     * PLZ KEEP BOTH METHODS CONSISTENT WITH EACH OTHERS.
+     */
+    can_be_discounted(tax) {
+        return !["fixed", "code"].includes(tax.amount_type);
     },
 };
