@@ -673,6 +673,13 @@ class IrModelFields(models.Model):
                     field_name=name,
                     related_field=self.related,
                 ))
+            if not field.store and index < last:
+                raise UserError(_(
+                    'Field "%(field_name)s" in related path "%(related_field)s" is not stored. '
+                    'Non-stored fields cannot be used in related fields.',
+                    field_name=name,
+                    related_field=self.related,
+                ))
         return field
 
     @api.constrains('related')
@@ -1772,6 +1779,10 @@ class IrModelFieldsSelection(models.Model):
             if not field or not field.store or not Model._auto:
                 continue
 
+            # Field changed its type, skip it.
+            if field.type not in ('selection', 'reference'):
+                continue
+
             ondelete = (field.ondelete or {}).get(selection.value)
             # special case for custom fields
             if ondelete is None and field.manual and not field.required:
@@ -2497,7 +2508,10 @@ class IrModelData(models.Model):
                         field_.setup(model)
                         has_shared_field = True
         if has_shared_field:
-            reset_cached_properties(self.env.registry)
+            registry = self.env.registry
+            reset_cached_properties(registry)
+            registry._field_trigger_trees.clear()
+            registry._is_modifying_relations.clear()
 
         # to collect external ids of records that cannot be deleted
         undeletable_ids = []
