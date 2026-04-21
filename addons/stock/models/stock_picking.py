@@ -1312,7 +1312,6 @@ class Picking(models.Model):
                     move_lines_without_package_level = move_lines_to_pack - move_lines_in_package_level
                     if package.package_use == 'disposable':
                         (move_lines_in_package_level | move_lines_without_package_level).result_package_id = package
-                    move_lines_in_package_level.result_package_id = package
                     for ml in move_lines_in_package_level:
                         ml.package_level_id = ml.move_id.package_level_id.id
                     move_lines_without_package_level.package_level_id = package_level_ids[0].id
@@ -1576,6 +1575,7 @@ class Picking(models.Model):
             'move_ids': [],
             'move_line_ids': [],
             'backorder_id': self.id,
+            'return_id': self.return_id.id,
         })
 
     def _create_backorder(self, backorder_moves=None):

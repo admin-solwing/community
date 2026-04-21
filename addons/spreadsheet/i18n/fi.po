@@ -35,9 +35,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-05 18:38+0000\n"
-"PO-Revision-Date: 2026-02-21 10:14+0000\n"
-"Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
+"POT-Creation-Date: 2026-04-10 18:38+0000\n"
+"PO-Revision-Date: 2026-03-21 09:25+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-18/"
 "spreadsheet/fi/>\n"
 "Language: fi\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.3\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -375,6 +375,12 @@ msgstr "2 saraketta"
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "2 rows"
 msgstr "2 riviä"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.xml:0
+msgid "A"
+msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -2038,7 +2044,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.xml:0
 msgid "Compute from totals"
-msgstr ""
+msgstr "Laske kokonaissummista"
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -3728,6 +3734,7 @@ msgstr ""
 msgid ""
 "Function [[FUNCTION_NAME]] expects number values for %s, but got a boolean."
 msgstr ""
+"Toiminto [[FUNCTION_NAME]] odottaa numeroarvoja %s, mutta sai boolean-arvon."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -3735,6 +3742,7 @@ msgstr ""
 msgid ""
 "Function [[FUNCTION_NAME]] expects number values for %s, but got a string."
 msgstr ""
+"Toiminto [[FUNCTION_NAME]] odottaa numeroarvoja %s, mutta sai merkkijonon."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -3743,6 +3751,7 @@ msgid ""
 "Function [[FUNCTION_NAME]] expects number values for %s, but got an empty "
 "value."
 msgstr ""
+"Toiminto [[FUNCTION_NAME]] odottaa numeroarvoja %s, mutta sai tyhjän arvon."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -8025,6 +8034,8 @@ msgid ""
 "The first and second arguments of [[FUNCTION_NAME]] must be non-empty "
 "matrices."
 msgstr ""
+"[[FUNCTION_NAME]] ensimmäinen ja toinen argumentti eivät saa olla tyhjiä "
+"matriiseja."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -8320,7 +8331,7 @@ msgstr "Future_valuen (%s) on oltava ehdottomasti positiivinen."
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "The header row of a table can't be moved."
-msgstr ""
+msgstr "Taulukon otsikkoriviä ei voi siirtää."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11115,7 +11126,7 @@ msgstr "Arvon muutos avainarvosta"
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "Value for parameter %s is missing in [[FUNCTION_NAME]]."
-msgstr ""
+msgstr "Parametrin %s arvo puuttuu [[FUNCTION_NAME]]:sta."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11718,6 +11729,8 @@ msgid ""
 "[[FUNCTION_NAME]] expects the provided values of %(argName)s to be a non-"
 "empty matrix."
 msgstr ""
+"[[FUNCTION_NAME]] odottaa, etteivät annetut %(argName)s-arvot ole tyhjiä "
+"matriiseja."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11957,6 +11970,12 @@ msgstr "tänään"
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "tomorrow"
 msgstr "huomenna"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/public_readonly_app/public_readonly.xml:0
+msgid "x"
+msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript
