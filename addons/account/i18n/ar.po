@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-17 18:36+0000\n"
-"PO-Revision-Date: 2026-04-11 09:09+0000\n"
+"POT-Creation-Date: 2026-05-29 17:37+0000\n"
+"PO-Revision-Date: 2026-04-24 12:48+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-18/account/"
 "ar/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.17\n"
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_journal__type
@@ -3952,7 +3952,7 @@ msgstr "عند إلغاء تحديد حقل نشط، يمكنك إخفاء شر�
 #. odoo-python
 #: code:addons/account/wizard/account_automatic_entry_wizard.py:0
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #. module: account
 #. odoo-python
@@ -12609,6 +12609,7 @@ msgstr "فئات المنتجات"
 #: model:ir.model,name:account.model_product_category
 #: model:ir.model.fields,field_description:account.field_account_analytic_applicability__product_categ_id
 #: model:ir.model.fields,field_description:account.field_account_analytic_distribution_model__product_categ_id
+#: model:ir.model.fields,field_description:account.field_account_analytic_line__product_category
 #: model:ir.model.fields,field_description:account.field_account_invoice_report__product_categ_id
 #: model:ir.model.fields,field_description:account.field_account_move_line__product_category_id
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_report_search
@@ -13218,11 +13219,6 @@ msgstr "المتبقي بالعملة "
 #: model:ir.model.fields,field_description:account.field_res_partner_bank__activity_user_id
 msgid "Responsible User"
 msgstr "المستخدم المسؤول"
-
-#. module: account
-#: model:ir.model.fields,help:account.field_account_tax__tax_scope
-msgid "Restrict the use of taxes to a type of product."
-msgstr "قم بتقييد استخدام الضرائب لنوع معين من المنتجات. "
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_reconcile_model__match_same_currency
@@ -15353,6 +15349,8 @@ msgid ""
 "The bank account of your company is not trusted. Please ask an admin or "
 "someone with approval rights to check it."
 msgstr ""
+"الحساب البنكي الخاص بشركتك غير موثوق به. يُرجى الطلب من المسؤول أو أي شخص "
+"يتمتع بالصلاحيات المطلوبة التحقق من ذلك."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_account_move_line__statement_id
@@ -15595,7 +15593,7 @@ msgstr "تم تأمين هذا القيد باستخدام تجزئة غير ق�
 msgid ""
 "The entry is using accounts (%(accounts_codes_names)s) from a different "
 "company."
-msgstr ""
+msgstr "يستخدم القيد حسابات (%(accounts_codes_names)s) من شركة مختلفة."
 
 #. module: account
 #: model:ir.model.fields,help:account.field_product_category__property_account_expense_categ_id
@@ -19397,6 +19395,9 @@ msgid ""
 "{{ object.company_id.name }} Payment Receipt (Ref {{ object.name or 'n/a' }})"
 msgstr ""
 "{{ object.company_id.name }} إيصال الدفع  (المرجع {{ object.name or 'n/a' }})"
+
+#~ msgid "Restrict the use of taxes to a type of product."
+#~ msgstr "قم بتقييد استخدام الضرائب لنوع معين من المنتجات. "
 
 #~ msgid "1.05"
 #~ msgstr "1.05"

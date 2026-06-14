@@ -159,7 +159,12 @@ class AccountTax(models.Model):
         "Based on Payment: the tax is due as soon as the payment of the invoice is received.")
     cash_basis_transition_account_id = fields.Many2one(string="Cash Basis Transition Account",
         check_company=True,
-        domain="[('deprecated', '=', False)]",
+        domain="""
+            [
+                ('deprecated', '=', False),
+                ('account_type', 'not in', ('asset_receivable', 'liability_payable'))
+            ]
+        """,
         comodel_name='account.account',
         help="Account used to transition the tax amount for cash basis taxes. It will contain the tax amount as long as the original invoice has not been reconciled ; at reconciliation, this amount cancelled on this account and put on the regular tax account.")
     invoice_repartition_line_ids = fields.One2many(
@@ -3886,18 +3891,29 @@ class AccountTax(models.Model):
 
         suffix_currency = base_lines[0]['currency_id'] if in_foreign_currency else company.currency_id
         suffix = '_currency' if in_foreign_currency else ''
+        raw_field = f'raw_total_excluded{suffix}'
 
         for base_line in base_lines:
             tax_details = base_line['tax_details']
+            raw_total_excluded = tax_details[raw_field]
 
-            raw_gross_total_excluded = self._get_gross_total_without_tax(
-                base_line=base_line,
-                company=company,
-                in_foreign_currency=in_foreign_currency,
-                account_discount_base_lines=account_discount_base_lines,
-                precision_digits=precision_digits,
-            )
-            tax_details[f'raw_gross_total_excluded{suffix}'] = raw_gross_total_excluded
+            global_discount_sum = 0.0
+            if account_discount_base_lines:
+                global_discount_sum = sum(
+                    discount_base_line['tax_details'][raw_field]
+                    for discount_base_line in base_line.get('discount_base_lines', [])
+                )
+
+            discount_factor = 1 - (base_line['discount'] / 100.0)
+            if discount_factor:
+                raw_gross_total_excluded = (raw_total_excluded - global_discount_sum) / discount_factor
+            elif suffix == '_currency':
+                raw_gross_total_excluded = base_line['price_unit'] * base_line['quantity']
+            elif base_line['rate']:
+                raw_gross_total_excluded = base_line['price_unit'] * base_line['quantity'] / base_line['rate']
+            else:
+                raw_gross_total_excluded = 0.0
+            tax_details[f'raw_gross_total_excluded{suffix}'] = float_round(raw_gross_total_excluded, precision_digits=precision_digits)
 
             # Same as before but per unit.
             raw_gross_price_unit = self._get_price_unit_without_tax(
@@ -4467,17 +4483,29 @@ class AccountTax(models.Model):
     @api.model
     def _import_retrieve_tax_from_price_include_exclude(self, tax_values):
         price_include = tax_values.get('price_include')
+        fiscal_position = tax_values.get('fiscal_position')
+
+        fpos_domain = []
+        if fiscal_position:
+            fpos_dest_ids = fiscal_position.tax_ids.mapped('tax_dest_id').ids
+            if fpos_dest_ids:
+                fpos_domain = [('id', 'in', fpos_dest_ids)]
+
         criteria = []
         if not price_include:
+            if fpos_domain:
+                criteria.append({'domain': [('price_include', '=', False)] + fpos_domain})
             criteria.append({'domain': [('price_include', '=', False)]})
-        elif price_include is None or price_include:
+        if price_include is None or price_include:
+            if fpos_domain:
+                criteria.append({'domain': [('price_include', '=', True)] + fpos_domain})
             criteria.append({'domain': [('price_include', '=', True)]})
 
         return {'criteria': criteria}
 
     @api.model
     def _import_retrieve_tax(self, search_plan, company, tax_values_list):
-        cache = {}
+        cache = self.env.cr.cache.setdefault('retrieved_tax_map', {}).setdefault(company.id, {})
 
         static_domain = expression.OR([
             [*self._check_company_domain(company), ('company_id', '!=', False)],
@@ -4488,6 +4516,7 @@ class AccountTax(models.Model):
                ('amount_type', '=', tax_values['amount_type']),
                ('type_tax_use', '=', tax_values['type_tax_use']),
                ('amount', '=', tax_values['amount']),
+               *([('country_id', '=', tax_values['invoice_predictive']['invoice'].tax_country_id.id)] if 'invoice_predictive' in tax_values else []),
             ]
             orders = ['sequence', 'id']
             if name := tax_values.get('name'):
@@ -4515,9 +4544,11 @@ class AccountTax(models.Model):
                         cache_key = str(domain)
                     else:
                         cache_key = criteria.get('cache_key')
+                        if cache_key:
+                            cache_key = (cache_key, str(tax_domain))
 
                     # Look at the cache if the value has already been tested with this key.
-                    if cache_key in cache:
+                    if cache_key and cache_key in cache:
                         if tax := cache[cache_key]:
                             tax_values['tax'] = tax
                             break
@@ -4533,9 +4564,9 @@ class AccountTax(models.Model):
                             'static_domain': expression.AND([tax_domain, static_domain]),
                         })
 
+                    if cache_key:
+                        cache[cache_key] = tax
                     if tax:
-                        if cache_key:
-                            cache[cache_key] = tax
                         tax_values['tax'] = tax
                         break
 

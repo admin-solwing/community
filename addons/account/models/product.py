@@ -5,7 +5,7 @@ from difflib import SequenceMatcher
 from odoo import api, Command, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.osv import expression
-from odoo.tools import format_amount, frozendict
+from odoo.tools import format_amount, frozendict, split_every
 
 ACCOUNT_DOMAIN = "['&', ('deprecated', '=', False), ('account_type', 'not in', ('asset_receivable','liability_payable','asset_cash','liability_credit_card','off_balance'))]"
 
@@ -244,9 +244,11 @@ class ProductProduct(models.Model):
                 return 0.0
         if product_taxes is None:
             if document_type == 'sale':
-                product_taxes = product.taxes_id.filtered(lambda x: x.company_id == company)
+                product_taxes = product.taxes_id
             elif document_type == 'purchase':
-                product_taxes = product.supplier_taxes_id.filtered(lambda x: x.company_id == company)
+                product_taxes = product.supplier_taxes_id
+        if product_taxes:
+            product_taxes = product_taxes._filter_taxes_by_company(company)
         # Apply unit of measure.
         if product_uom and product.uom_id != product_uom:
             product_price_unit = product.uom_id._compute_price(product_price_unit, product_uom)
@@ -325,15 +327,23 @@ class ProductProduct(models.Model):
             except ValueError:
                 similarity_threshold = 0.9
 
-            products = self.search(
+            all_product_ids = self.search(
                 expression.AND([
                     [('name', 'ilike', name)],
                     values['static_domain'],
                 ]),
-            )
-            for product in products:
-                if SequenceMatcher(None, name.lower(), product.name.lower()).ratio() >= similarity_threshold:
-                    return product
+            ).ids
+            lowered_name = name.lower()
+            for products in split_every(models.PREFETCH_MAX, all_product_ids, self.browse):
+                products.fetch(['product_tmpl_id'])
+                templates = products.product_tmpl_id
+                templates.fetch(['name'])
+                for product in products:
+                    if SequenceMatcher(None, lowered_name, product.name.lower()).ratio() >= similarity_threshold:
+                        return product
+                products.invalidate_recordset()
+                templates.invalidate_recordset()
+            return self.env['product.product']
 
         if name and '\n' in name:
             # cut Sales Description from the name
@@ -341,7 +351,7 @@ class ProductProduct(models.Model):
         if name:
             return {'criteria': [
                 {'domain': [('name', '=', name)]},
-                {'search_method': find_product_by_name_similarity},
+                {'search_method': find_product_by_name_similarity, 'cache_key': str([('name', '=', name)])},
             ]}
 
     @api.model
