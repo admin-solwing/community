@@ -70,7 +70,7 @@ class AccountMove(models.Model):
 
             # is it a stock return considering the document type (should it be it thought of as positively or negatively?)
             is_stock_return = (
-                    self.move_type == 'out_invoice' and (sml.location_id.usage, sml.location_dest_id.usage) == ('customer', 'internal')
+                    self.move_type == 'out_invoice' and sml.location_id.usage == 'customer' and sml.location_dest_id.usage in ('internal', 'supplier')
                     or
                     self.move_type == 'out_refund' and sml.location_dest_id.usage == 'customer' and sml.location_id.usage in ('internal', 'supplier')
             )
@@ -153,7 +153,10 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     def _get_stock_moves(self):
-        return super()._get_stock_moves() | self.sale_line_ids.move_ids
+        return super()._get_stock_moves() | self._get_sale_stock_move()
+
+    def _get_sale_stock_move(self):
+        return self.sale_line_ids.move_ids
 
     def _sale_can_be_reinvoice(self):
         self.ensure_one()
